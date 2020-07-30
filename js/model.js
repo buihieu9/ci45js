@@ -22,7 +22,6 @@ model.login = async (email, password) => {
     const response = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
-    view.errorMessage("password-error", "");
     if (response.user.emailVerified) {
       // model.currentUser = {
       //   displayName: response.user.displayName,

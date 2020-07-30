@@ -23,6 +23,10 @@ body {
   cursor: pointer;
 }
 
+#btn-signOut:hover {
+  background: #3894f7;
+}
+
 .conversation-header {
   text-align: center;
   height: 64px;

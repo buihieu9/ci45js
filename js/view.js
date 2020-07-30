@@ -85,6 +85,8 @@ view.setActiveScreen = (screnName) => {
           sendMessageForm.message.value = "";
           view.addMessage(message);
           view.addMessage(bot);
+          let scroll = document.getElementsByClassName("list-messages");
+          scroll[0].scrollTop = scroll[0].scrollHeight;
         }
       });
       let btnSignOut = document.getElementById("btn-signOut");
