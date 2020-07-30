@@ -1,0 +1,40 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.input-wrapper input {
+  border: 1px solid #dbdbdb;
+  padding: 10px 15px;
+  border-radius: 5px;
+  width: 100%;
+  outline: none;
+}
+.input-wrapper {
+  margin-bottom: 10px;
+}
+.btn {
+  padding: 8px 20px;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  background: #037bfe;
+  cursor: pointer;
+}
+
+.register-container .aside-right .form-action,
+.login-container .aside-right .form-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.error {
+  color: #ff0000;
+}
+.form-action {
+  cursor: pointer;
+}
+.register-container .aside-right .form-action :active,
+.login-container .aside-right .form-action :active {
+  color: #037bfe;
+}

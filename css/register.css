@@ -1,0 +1,32 @@
+.register-container {
+  background: url(../image/register-background.jpg);
+  height: 100vh;
+  background-size: cover;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.register-container .aside-right {
+  height: 100vh;
+  background-color: #ffffff;
+  width: 28%;
+}
+
+.register-container .aside-right .header h3 {
+  font-size: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #666;
+  text-align: center;
+  padding-top: 50px;
+}
+#register-form {
+  padding: 20px;
+}
+
+.register-container .input-name-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.register-container .input-name-wrapper .input-wrapper {
+  width: 48%;
+}
