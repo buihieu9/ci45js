@@ -87,6 +87,13 @@ view.setActiveScreen = (screnName) => {
           view.addMessage(bot);
         }
       });
+      let btnSignOut = document.getElementById("btn-signOut");
+      btnSignOut.addEventListener("click", (e) => {
+        if (confirm("Do you want to signOut?")) {
+          firebase.auth().signOut();
+          view.setActiveScreen("loginScreen");
+        }
+      });
       break;
     }
   }

@@ -24,10 +24,10 @@ model.login = async (email, password) => {
       .signInWithEmailAndPassword(email, password);
     view.errorMessage("password-error", "");
     if (response.user.emailVerified) {
-      model.currentUser = {
-        displayName: response.user.displayName,
-        email: response.user.email,
-      };
+      // model.currentUser = {
+      //   displayName: response.user.displayName,
+      //   email: response.user.email,
+      // };
       view.setActiveScreen("chatScreen");
     } else {
       alert("please verify your email");

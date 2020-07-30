@@ -10,7 +10,7 @@ let init = () => {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  view.setActiveScreen("loginScreen");
+  // view.setActiveScreen("loginScreen");
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       if (user.emailVerified) {
@@ -21,8 +21,9 @@ let init = () => {
         view.setActiveScreen("chatScreen");
       } else {
         view.setActiveScreen("loginScreen");
-        alert("verify email ");
       }
+    } else {
+      view.setActiveScreen("loginScreen");
     }
   });
 };

@@ -74,6 +74,9 @@ components.chatScreen = `<div class="chat-container">
 <div class="header">
   MindX Chat
 </div>
+<div id="btn-signOut">
+<i class="fas fa-sign-out-alt"></i>  signOut
+</div>
 <div class="main">
   <div class="conversation-detail">
     <div class="conversation-header">
