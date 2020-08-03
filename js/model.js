@@ -23,10 +23,6 @@ model.login = async (email, password) => {
       .auth()
       .signInWithEmailAndPassword(email, password);
     if (response.user.emailVerified) {
-      // model.currentUser = {
-      //   displayName: response.user.displayName,
-      //   email: response.user.email,
-      // };
       view.setActiveScreen("chatScreen");
     } else {
       alert("please verify your email");
@@ -34,4 +30,42 @@ model.login = async (email, password) => {
   } catch (err) {
     view.errorMessage("password-error", err.message);
   }
+};
+
+model.loadconversation = async () => {
+  const response = await firebase
+    .firestore()
+    .collection("conversations")
+    .where("users", "array-contains", model.currentUser.email)
+    .get();
+  response.docs[0].data().messages.forEach((element) => {
+    view.addMessage(element);
+  });
+
+  view.scrollBottom();
+};
+model.listenonchanges = () => {
+  firebase
+    .firestore()
+    .collection("conversations")
+    .where("users", "array-contains", model.currentUser.email)
+    .onSnapshot((res) => {
+      let currentMessage = res.docChanges()[0].doc.data().messages;
+      let index = currentMessage.length - 1;
+      if (res.docChanges()[0].type === "modified") {
+        view.addMessage(currentMessage[index]);
+      }
+      view.scrollBottom();
+    });
+};
+
+model.addMessage = (data) => {
+  const dataToUpdate = {
+    messages: firebase.firestore.FieldValue.arrayUnion(data),
+  };
+  firebase
+    .firestore()
+    .collection("conversations")
+    .doc("yCR843YDRzLm7GvXqlRD")
+    .update(dataToUpdate);
 };

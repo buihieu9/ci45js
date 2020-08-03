@@ -18,6 +18,8 @@ let init = () => {
           email: user.email,
         };
         view.setActiveScreen("chatScreen");
+      } else {
+        view.setActiveScreen("loginScreen");
       }
     } else {
       view.setActiveScreen("loginScreen");

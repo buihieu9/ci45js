@@ -70,6 +70,7 @@ view.setActiveScreen = (screnName) => {
     }
     case "chatScreen": {
       document.getElementById("app").innerHTML = components.chatScreen;
+
       const sendMessageForm = document.getElementById("send-message-form");
       sendMessageForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -77,18 +78,14 @@ view.setActiveScreen = (screnName) => {
           const message = {
             content: sendMessageForm.message.value.trim(),
             owner: model.currentUser.email,
+            createdAt: new Date().toISOString(),
           };
-          const bot = {
-            content: sendMessageForm.message.value,
-            owner: "bot",
-          };
+          model.addMessage(message);
           sendMessageForm.message.value = "";
-          view.addMessage(message);
-          view.addMessage(bot);
-          let scroll = document.getElementsByClassName("list-messages");
-          scroll[0].scrollTop = scroll[0].scrollHeight;
         }
       });
+      model.loadconversation();
+      model.listenonchanges();
       let btnSignOut = document.getElementById("btn-signOut");
       btnSignOut.addEventListener("click", (e) => {
         if (confirm("Do you want to signOut?")) {
@@ -96,6 +93,7 @@ view.setActiveScreen = (screnName) => {
           view.setActiveScreen("loginScreen");
         }
       });
+
       break;
     }
   }
@@ -124,4 +122,9 @@ view.addMessage = (message) => {
     </div>`;
   }
   document.querySelector(".list-messages").appendChild(messageWrapper);
+};
+
+view.scrollBottom = () => {
+  let scroll = document.getElementsByClassName("list-messages");
+  scroll[0].scrollTop = scroll[0].scrollHeight;
 };
