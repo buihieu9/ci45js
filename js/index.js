@@ -20,6 +20,7 @@ let init = () => {
         view.setActiveScreen("chatScreen");
       } else {
         view.setActiveScreen("loginScreen");
+        alert("please verify your email");
       }
     } else {
       view.setActiveScreen("loginScreen");

@@ -102,6 +102,7 @@ body {
   max-width: 40%;
   width: max-content;
   margin-bottom: 10px;
+  word-break: break-all;
 }
 
 .chat-container .message-container.their .content {

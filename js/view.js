@@ -1,4 +1,5 @@
 const view = {};
+
 view.setActiveScreen = (screnName) => {
   switch (screnName) {
     case "loginScreen": {
@@ -84,8 +85,8 @@ view.setActiveScreen = (screnName) => {
           sendMessageForm.message.value = "";
         }
       });
-      model.loadconversation();
       model.listenonchanges();
+      model.loadconversation();
       let btnSignOut = document.getElementById("btn-signOut");
       btnSignOut.addEventListener("click", (e) => {
         if (confirm("Do you want to signOut?")) {
@@ -122,9 +123,21 @@ view.addMessage = (message) => {
     </div>`;
   }
   document.querySelector(".list-messages").appendChild(messageWrapper);
+  view.scrollBottom();
 };
 
 view.scrollBottom = () => {
   let scroll = document.getElementsByClassName("list-messages");
   scroll[0].scrollTop = scroll[0].scrollHeight;
+};
+
+view.showrrentconversation = () => {
+  // change title conversation
+  document.getElementsByClassName("conversation-header")[0].innerText =
+    model.currentConversation.title;
+
+  model.currentConversation.messages.forEach((e) => {
+    view.addMessage(e);
+  });
+  view.scrollBottom();
 };
