@@ -73,14 +73,30 @@ model.listenonchanges = () => {
             }
           });
           // update model.currentconversation
-          if (docData.id === model.currentConversation.id) {
+
+          console.log(model.currentConversation);
+          if (model.currentConversation === null) {
             model.currentConversation = docData;
-            const lastMassage = docData.messages[docData.messages.length - 1];
-            view.addMessage(lastMassage);
+            if (docData.id === model.currentConversation.id) {
+              model.currentConversation = docData;
+              console.log(docData);
+              console.log(model.currentConversation);
+              const lastMassage = docData.messages[docData.messages.length - 1];
+              view.addMessage(lastMassage);
+            }
+          } else {
+            // model.currentConversation = docData;
+            if (docData.id === model.currentConversation.id) {
+              model.currentConversation = docData;
+              console.log(docData);
+              const lastMassage = docData.messages[docData.messages.length - 1];
+              view.addMessage(lastMassage);
+            }
           }
         }
         if (type === "added") {
           model.conversations.unshift(getDataFormDoc(docChanges[0].doc));
+
           view.showConversations();
         }
       }
@@ -107,7 +123,6 @@ model.addNewConversation = (data) => {
     users: [model.currentUser.email, data.email.value],
   };
   firebase.firestore().collection(model.collectionName).add(newConversation);
-
   view.setActiveScreen("chatScreen", true);
 };
 

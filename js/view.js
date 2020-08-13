@@ -133,6 +133,7 @@ view.setActiveScreen = (screnName, formCreateConversation = false) => {
               name: "your friend email",
             },
           };
+
           controller.Validate(data, true);
         });
       }
@@ -168,7 +169,7 @@ view.addMessage = (message) => {
 
 view.scrollBottom = () => {
   let scroll = document.getElementsByClassName("list-messages");
-  if (model.currentConversation.messages.length > 0) {
+  if (model.currentConversation) {
     scroll[0].scrollTop = scroll[0].scrollHeight;
   }
 };
@@ -176,13 +177,15 @@ view.scrollBottom = () => {
 view.showCurrentconversation = () => {
   document.querySelector(".list-messages").innerHTML = "";
   // change title conversation
-  document.getElementsByClassName("conversation-header")[0].innerText =
-    model.currentConversation.title;
-
-  model.currentConversation.messages.forEach((e) => {
-    view.addMessage(e);
-  });
-  view.scrollBottom();
+  if (model.currentConversation !== null) {
+    document.getElementsByClassName("conversation-header")[0].innerText =
+      model.currentConversation.title;
+    console.log(model.currentConversation);
+    model.currentConversation.messages.forEach((e) => {
+      view.addMessage(e);
+    });
+    view.scrollBottom();
+  }
 };
 
 view.showConversations = () => {
@@ -195,16 +198,20 @@ view.showConversations = () => {
 view.addConversation = (conversation) => {
   const conversationWrapper = document.createElement("div");
   conversationWrapper.className = "conversation cursor";
-  if (model.currentConversation.id === conversation.id) {
-    conversationWrapper.classList.add("current");
+  if (model.currentConversation) {
+    if (model.currentConversation.id === conversation.id) {
+      conversationWrapper.classList.add("current");
+    }
   }
   conversationWrapper.innerHTML = `
-  <div class="conversation-title">${conversation.users[1]}</div>
-  <div class="conversation-num-user">${conversation.users.length}</div>
-  `;
+    <div class="conversation-title">${conversation.title}</div>
+    <div class="conversation-num-user">${conversation.users.length}</div>
+    `;
   conversationWrapper.addEventListener("click", () => {
     // change theme, change current
-    document.querySelector(".current").classList.remove("current");
+    if (document.querySelector(".current")) {
+      document.querySelector(".current").classList.remove("current");
+    }
     conversationWrapper.classList.add("current");
     //
     model.currentConversation = conversation;
