@@ -177,10 +177,10 @@ view.scrollBottom = () => {
 view.showCurrentconversation = () => {
   document.querySelector(".list-messages").innerHTML = "";
   // change title conversation
-  if (model.currentConversation !== null) {
+
+  if (model.currentConversation) {
     document.getElementsByClassName("conversation-header")[0].innerText =
       model.currentConversation.title;
-    console.log(model.currentConversation);
     model.currentConversation.messages.forEach((e) => {
       view.addMessage(e);
     });
@@ -214,8 +214,8 @@ view.addConversation = (conversation) => {
     }
     conversationWrapper.classList.add("current");
     //
+    // if(conversation)
     model.currentConversation = conversation;
-
     view.showCurrentconversation();
   });
   document.querySelector(".list-conversation").appendChild(conversationWrapper);
