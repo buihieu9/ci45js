@@ -186,7 +186,6 @@ view.showCurrentconversation = () => {
 };
 
 view.showConversations = () => {
-  console.log("2");
   document.querySelector(".list-conversation").innerHTML = "";
   model.conversations.forEach((e) => {
     view.addConversation(e);
@@ -200,7 +199,7 @@ view.addConversation = (conversation) => {
     conversationWrapper.classList.add("current");
   }
   conversationWrapper.innerHTML = `
-  <div class="conversation-title">${conversation.title}</div>
+  <div class="conversation-title">${conversation.users[1]}</div>
   <div class="conversation-num-user">${conversation.users.length}</div>
   `;
   conversationWrapper.addEventListener("click", () => {
