@@ -1,9 +1,15 @@
 const controller = {};
-controller.Validate = (data) => {
+controller.Validate = (data, check = false) => {
   for (let i in data) {
     data[i].value !== ""
       ? view.errorMessage(data[i].id, "")
       : view.errorMessage(data[i].id, "Please input " + data[i].name);
+  }
+  if (check) {
+    if ((data.title.value !== "", data.email.value)) {
+      model.addNewConversation(data);
+    }
+    return;
   }
 
   if (Object.keys(data)[4] === "confirmPassword") {

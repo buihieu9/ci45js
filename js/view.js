@@ -1,6 +1,6 @@
 const view = {};
 
-view.setActiveScreen = (screnName) => {
+view.setActiveScreen = (screnName, formCreateConversation = false) => {
   switch (screnName) {
     case "loginScreen": {
       document.getElementById("app").innerHTML = components.loginScreen;
@@ -85,8 +85,13 @@ view.setActiveScreen = (screnName) => {
           sendMessageForm.message.value = "";
         }
       });
-      model.listenonchanges();
-      model.loadconversation();
+      if (!formCreateConversation) {
+        model.listenonchanges();
+        model.loadconversation();
+      } else {
+        view.showConversations();
+        view.showCurrentconversation();
+      }
       let btnSignOut = document.getElementById("btn-signOut");
       btnSignOut.addEventListener("click", (e) => {
         if (confirm("Do you want to signOut?")) {
@@ -95,8 +100,43 @@ view.setActiveScreen = (screnName) => {
         }
       });
 
+      document
+        .querySelector(".create-conversation .btn")
+        .addEventListener("click", () => {
+          view.setActiveScreen("createConversation");
+        });
+
       break;
     }
+    case "createConversation":
+      {
+        document.getElementById("app").innerHTML =
+          components.createconversation;
+        document
+          .getElementById("back-to-chat")
+          .addEventListener("click", () => {
+            view.setActiveScreen("chatScreen", true);
+          });
+
+        const createForm = document.getElementById("create-conversation-form");
+        createForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const data = {
+            title: {
+              value: createForm.conversationTile.value.trim(),
+              id: "conversation-name-error",
+              name: "title conversation",
+            },
+            email: {
+              value: createForm.friendName.value.trim(),
+              id: "conversation-email-error",
+              name: "your friend email",
+            },
+          };
+          controller.Validate(data, true);
+        });
+      }
+      break;
   }
 };
 view.errorMessage = (id, message) => {
@@ -128,10 +168,13 @@ view.addMessage = (message) => {
 
 view.scrollBottom = () => {
   let scroll = document.getElementsByClassName("list-messages");
-  scroll[0].scrollTop = scroll[0].scrollHeight;
+  if (model.currentConversation.messages.length > 0) {
+    scroll[0].scrollTop = scroll[0].scrollHeight;
+  }
 };
 
-view.showrrentconversation = () => {
+view.showCurrentconversation = () => {
+  document.querySelector(".list-messages").innerHTML = "";
   // change title conversation
   document.getElementsByClassName("conversation-header")[0].innerText =
     model.currentConversation.title;
@@ -140,4 +183,34 @@ view.showrrentconversation = () => {
     view.addMessage(e);
   });
   view.scrollBottom();
+};
+
+view.showConversations = () => {
+  console.log("2");
+  document.querySelector(".list-conversation").innerHTML = "";
+  model.conversations.forEach((e) => {
+    view.addConversation(e);
+  });
+};
+
+view.addConversation = (conversation) => {
+  const conversationWrapper = document.createElement("div");
+  conversationWrapper.className = "conversation cursor";
+  if (model.currentConversation.id === conversation.id) {
+    conversationWrapper.classList.add("current");
+  }
+  conversationWrapper.innerHTML = `
+  <div class="conversation-title">${conversation.title}</div>
+  <div class="conversation-num-user">${conversation.users.length}</div>
+  `;
+  conversationWrapper.addEventListener("click", () => {
+    // change theme, change current
+    document.querySelector(".current").classList.remove("current");
+    conversationWrapper.classList.add("current");
+    //
+    model.currentConversation = conversation;
+
+    view.showCurrentconversation();
+  });
+  document.querySelector(".list-conversation").appendChild(conversationWrapper);
 };

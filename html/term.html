@@ -11,39 +11,24 @@
 </head>
 
 <body>
-  <div class="chat-container">
-
+  <div class="create-container">
     <div class="header">
-      MindX Chat
+      MindX chat
     </div>
-    <button id="btn-signOut">signOut</button>
-    <div class="main">
-      <div class="conversation-detail">
-        <div class="conversation-header">
-          First Conversation
+    <div class="main" style="padding: 50px 20%;">
+      <form id="create-conversation-form">
+        <div> Create a new conversation</div>
+        <div class="input-wrapper">
+          <input type="text" placeholder="Conversation name" name="conversationTile">
+          <div class="error" id="conversation-name-error"></div>
         </div>
-        <div class="list-messages">
-          <div class="message-container mine">
-            <div class="content">
-              hello world
-            </div>
-          </div>
-          <div class="message-container their">
-            <div class="ower">
-              aaaa.@gmail.com
-            </div>
-            <div class="content">
-              aaaaaaaaaaaaaa
-            </div>
-          </div>
+        <div class="input-wrapper">
+          <input type="text" placeholder="friend name" name="conversationTile">
+          <div class="error" id="conversation-email-error"></div>
         </div>
-        <form id="send-message-form">
-          <div class="input-wrapper">
-            <input type="text" name="message" placeholder="Type a message..." />
-          </div>
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
+        <button type="submit" class="btn">Save</button>
+        <button type="button" id="back-to-chat" class="btn btn-light">Cancel</button>
+      </form>
     </div>
   </div>
 </body>

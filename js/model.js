@@ -43,9 +43,9 @@ model.loadconversation = async () => {
   model.conversations = getDataFormDocs(response.docs);
   if (model.conversations.length > 0) {
     model.currentConversation = model.conversations[0];
-    view.showrrentconversation();
+    view.showCurrentconversation();
   }
-
+  view.showConversations();
   // view.scrollBottom();
 };
 model.listenonchanges = () => {
@@ -55,12 +55,6 @@ model.listenonchanges = () => {
     .collection(model.collectionName)
     .where("users", "array-contains", model.currentUser.email)
     .onSnapshot((res) => {
-      // let currentMessage = res.docChanges()[0].doc.data().messages;
-      // let index = currentMessage.length - 1;
-      // if (res.docChanges()[0].type === "modified") {
-      //   view.addMessage(currentMessage[index]);
-      // }
-      // view.scrollBottom();
       if (isFirstRun) {
         isFirstRun = false;
         return;
@@ -68,8 +62,10 @@ model.listenonchanges = () => {
       const docChanges = res.docChanges();
       for (oneChange of docChanges) {
         const type = oneChange.type;
+        console.log(type);
         if (type === "modified") {
           const docData = getDataFormDoc(oneChange.doc);
+
           // update lai model.conversations
           model.conversations.forEach((e, ind) => {
             if (model.conversations[ind].id === docData.id) {
@@ -83,6 +79,10 @@ model.listenonchanges = () => {
             view.addMessage(lastMassage);
           }
         }
+        if (type === "added") {
+          model.conversations.unshift(getDataFormDoc(docChanges[0].doc));
+          view.showConversations();
+        }
       }
       view.scrollBottom();
     });
@@ -95,8 +95,20 @@ model.addMessage = (data) => {
   firebase
     .firestore()
     .collection(model.collectionName)
-    .doc("yCR843YDRzLm7GvXqlRD")
+    .doc(model.currentConversation.id)
     .update(dataToUpdate);
+};
+
+model.addNewConversation = (data) => {
+  const newConversation = {
+    createAt: new Date().toISOString(),
+    messages: [],
+    title: data.title.value,
+    users: [model.currentUser.email, data.email.value],
+  };
+  firebase.firestore().collection(model.collectionName).add(newConversation);
+
+  view.setActiveScreen("chatScreen", true);
 };
 
 getDataFormDoc = (doc) => {
